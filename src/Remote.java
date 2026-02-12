@@ -2,19 +2,21 @@ import java.util.Scanner;
 
 public class Remote {
 	boolean battery_status;
+	DogDoor door;
 	
-	public Remote(boolean battery_status) {
+	public Remote(DogDoor door, boolean battery_status) {
 		super();
+		this.door=door;
 		this.battery_status = battery_status;
 	}
 	
-	public void Change_Door_Status(DogDoor d) {
-		try {
-			d.Change_Status();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public void pressButton(DogDoor d) {
+		if(door.getStatus()){
+			door.close();
+		}else{
+			door.open();
 		}
+
 	}
 
 	

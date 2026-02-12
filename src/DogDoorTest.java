@@ -3,42 +3,40 @@ import java.util.Scanner;
 
 public class DogDoorTest {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		DogDoor d = new DogDoor(100,100,0);
-		Remote r=new Remote(true);
-		BarkRecognizer b=new BarkRecognizer();
+	public static void main(String[] args) throws InterruptedException {
+		DogDoor door = new DogDoor(false,2000);
+		Remote remote=new Remote(door,true);
+		BarkRecognizer b=new BarkRecognizer(door);
 		
-		ArrayList<Dog> doglist=new ArrayList<Dog>();
-		Dog dog1=new Dog();
-		doglist.add(dog1);
-		dog1.setDog_sound("bow bow");
-		Dog dog2=new Dog();
-		doglist.add(dog2);
-		dog2.setDog_sound("ruff ruff");
+		DogBark bark1=new DogBark("bow bow");
+		DogBark bark2=new DogBark("ruff ruff");
+		b.addDogBark(bark1);
+		b.addDogBark(bark2);
+
 		String bark_input;
 		
-		System.out.println("Dog door");
+		System.out.println("\n\nDog Door Software: ");
 		Scanner sc=new Scanner(System.in);
 		
 		
-		while(true) {
-			
-			System.out.println("Present Door Status: "+ d.status);
-			System.out.print("Bark input: ");
-			bark_input=sc.nextLine();
-			
-			if (b.recognized(bark_input,dog2)==1) {
-				System.out.println("BARK INPUT DETECTED!!");
-				r.Change_Door_Status(d);
+		System.out.print("Bark input: ");
+		bark_input=sc.nextLine();
+		b.recognize(bark_input);
+		System.out.println("\n");
+
+		int input;
+		while (true) {
+			System.out.print("Remote Control (1/0): ");
+			input=sc.nextInt();
+			if(input==1){
+				remote.pressButton(door);
+				System.out.println("Door opened!");
+			}else if(input==0){
+				remote.pressButton(door);
+				System.out.println("Door Closed!");
 			}
-			else {
-				System.out.println("WRONG INPUT DETECTED!!");
-			}
-			
-			System.out.println("\n");
-		
 		}
+		
 		
 		
 	}
